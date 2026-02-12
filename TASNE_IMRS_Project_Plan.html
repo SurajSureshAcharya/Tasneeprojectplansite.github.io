@@ -1,0 +1,2414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TASNE IMRS Project - Master Execution Plan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            min-height: 100vh;
+            color: #2c3e50;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header h2 {
+            font-size: 1.3em;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+        
+        .project-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: #ffd700;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        
+        .main-container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+        
+        .view-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .view-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .view-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .view-btn:not(.active) {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .view-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #7f8c8d;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        .view-section {
+            display: none;
+        }
+        
+        .view-section.active {
+            display: block;
+        }
+
+        /* Phase Cards */
+        .phases-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
+        }
+        
+        .phase-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .phase-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        
+        .phase-header {
+            padding: 25px;
+            color: white;
+            position: relative;
+        }
+        
+        .phase-0-header { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .phase-1-header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .phase-2-header { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .phase-3-header { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .phase-4-header { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #2c3e50; }
+        .phase-5-header { background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%); color: #2c3e50; }
+        .phase-6-header { background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%); }
+        
+        .phase-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .phase-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9em;
+            opacity: 0.95;
+        }
+        
+        .phase-content {
+            padding: 25px;
+        }
+        
+        .activity-list {
+            list-style: none;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        
+        .activity-content h5 {
+            font-size: 13px;
+            margin-bottom: 4px;
+            color: #2c3e50;
+        }
+        
+        .activity-content p {
+            font-size: 11px;
+            color: #7f8c8d;
+            line-height: 1.4;
+        }
+        
+        .phase-footer {
+            background: #f8f9fa;
+            padding: 20px 25px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .deliverables {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .deliverable-tag {
+            background: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #667eea;
+            border: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .milestone-badge {
+            background: #ffd700;
+            color: #2c3e50;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-left: auto;
+        }
+
+        /* Timeline */
+        .timeline-container {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        
+        .timeline-phase {
+            position: relative;
+            margin-bottom: 40px;
+            padding-left: 30px;
+        }
+        
+        .timeline-phase::before {
+            content: '';
+            position: absolute;
+            left: -40px;
+            top: 5px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .timeline-phase:nth-child(1)::before { background: #f5576c; }
+        .timeline-phase:nth-child(2)::before { background: #00f2fe; }
+        .timeline-phase:nth-child(3)::before { background: #38f9d7; }
+        .timeline-phase:nth-child(4)::before { background: #fee140; }
+        .timeline-phase:nth-child(5)::before { background: #fed6e3; }
+        .timeline-phase:nth-child(6)::before { background: #d299c2; }
+        .timeline-phase:nth-child(7)::before { background: #66a6ff; }
+        
+        .timeline-content {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            border-left: 5px solid;
+        }
+
+        /* Gantt Chart */
+        .gantt-container {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+        
+        .gantt-chart {
+            min-width: 1400px;
+        }
+        
+        .gantt-header {
+            display: grid;
+            grid-template-columns: 350px repeat(20, 1fr);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 0;
+            border-radius: 8px 8px 0 0;
+            font-weight: 600;
+        }
+        
+        .gantt-header .task-col {
+            padding: 0 20px;
+            border-right: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .gantt-header .week-col {
+            text-align: center;
+            font-size: 11px;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            padding: 5px;
+        }
+        
+        .phase-row {
+            display: grid;
+            grid-template-columns: 350px repeat(20, 1fr);
+            border-bottom: 1px solid #e0e0e0;
+            min-height: 60px;
+            align-items: center;
+        }
+        
+        .phase-row:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .task-info {
+            padding: 15px 20px;
+            border-right: 2px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .task-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 13px;
+            flex-shrink: 0;
+            color: white;
+        }
+        
+        .task-number.phase-0 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .task-number.phase-1 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .task-number.phase-2 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .task-number.phase-3 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .task-number.phase-4 { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #2c3e50; }
+        .task-number.phase-5 { background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%); color: #2c3e50; }
+        .task-number.phase-6 { background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%); }
+        
+        .task-details h4 {
+            font-size: 14px;
+            margin-bottom: 3px;
+            color: #2c3e50;
+        }
+        
+        .task-details p {
+            font-size: 11px;
+            color: #7f8c8d;
+            line-height: 1.3;
+        }
+        
+        .week-cell {
+            height: 100%;
+            min-height: 60px;
+            border-right: 1px solid #f0f0f0;
+            position: relative;
+        }
+        
+        .task-bar {
+            height: 30px;
+            border-radius: 15px;
+            margin: 15px 2px;
+            position: relative;
+        }
+        
+        .task-bar.phase-0 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .task-bar.phase-1 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .task-bar.phase-2 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .task-bar.phase-3 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .task-bar.phase-4 { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); border: 2px solid #667eea; }
+        .task-bar.phase-5 { background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%); border: 2px solid #764ba2; }
+        .task-bar.phase-6 { background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%); }
+        
+        .milestone-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ffd700;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        .deliverable-icon {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 9px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        @media (max-width: 1200px) {
+            .phases-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><i class="fas fa-project-diagram"></i> TASNE IMRS Project</h1>
+        <h2>Integrated Management & Regulatory System - Master Execution Plan</h2>
+        <div class="project-stats">
+            <div class="stat">
+                <div class="stat-value">7</div>
+                <div class="stat-label">Phases</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">30</div>
+                <div class="stat-label">Weeks</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">40+</div>
+                <div class="stat-label">Activities</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">18</div>
+                <div class="stat-label">Deliverables</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">8</div>
+                <div class="stat-label">Milestones</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="view-toggle">
+            <button class="view-btn active" onclick="switchView('phases')">
+                <i class="fas fa-th-large"></i> Phase Cards
+            </button>
+            <button class="view-btn" onclick="switchView('timeline')">
+                <i class="fas fa-stream"></i> Timeline
+            </button>
+            <button class="view-btn" onclick="switchView('gantt')">
+                <i class="fas fa-chart-gantt"></i> Gantt Chart
+            </button>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                <span>Phase 0: Mobilization</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                <span>Phase 1: Diagnostic</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);"></div>
+                <span>Phase 2: Architecture</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);"></div>
+                <span>Phase 3: Framework</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);"></div>
+                <span>Phase 4: Digital</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);"></div>
+                <span>Phase 5: Branding</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);"></div>
+                <span>Phase 6: Institutionalization</span>
+            </div>
+        </div>
+
+        <!-- Phase Cards View -->
+        <div id="phases-view" class="view-section active">
+            <div class="phases-container">
+                <!-- Phase 0 -->
+                <div class="phase-card">
+                    <div class="phase-header phase-0-header">
+                        <div class="phase-title"><i class="fas fa-rocket"></i> Phase 0: Mobilization & Scope Lock</div>
+                        <div class="phase-meta">
+                            <span><i class="fas fa-calendar"></i> Weeks 1-5</span>
+                            <span><i class="fas fa-tasks"></i> 7 Activities</span>
+                        </div>
+                    </div>
+                    <div class="phase-content">
+                        <ul class="activity-list">
+                            <li class="activity-item">
+                                <div class="activity-num">1</div>
+                                <div class="activity-content">
+                                    <h5>Kick-off & Governance Setup</h5>
+                                    <p>Formal project launch, confirm stakeholders, communication matrix</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">2</div>
+                                <div class="activity-content">
+                                    <h5>HSE & Site Access Induction</h5>
+                                    <p>Complete access formalities for workshops/site reviews</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">3</div>
+                                <div class="activity-content">
+                                    <h5>Scope Clarification Workshop</h5>
+                                    <p>Confirm boundaries, assumptions, exclusions</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">4</div>
+                                <div class="activity-content">
+                                    <h5>IT Landscape Alignment</h5>
+                                    <p>Review SAP modules, SharePoint, security constraints</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">5</div>
+                                <div class="activity-content">
+                                    <h5>Deliverable Acceptance Criteria</h5>
+                                    <p>Define measurable completion standards (DoD)</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">6</div>
+                                <div class="activity-content">
+                                    <h5>Data Request & Collection</h5>
+                                    <p>Collect IMRS framework, policies, templates</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">7</div>
+                                <div class="activity-content">
+                                    <h5>Project Execution Plan</h5>
+                                    <p>Confirm timeline, phase gates</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="phase-footer">
+                        <div class="deliverables">
+                            <span class="deliverable-tag"><i class="fas fa-file-alt"></i> D1: DoD Pack</span>
+                            <span class="deliverable-tag"><i class="fas fa-list"></i> D2: Data Log</span>
+                            <span class="deliverable-tag"><i class="fas fa-sitemap"></i> D3: Execution Plan</span>
+                            <span class="milestone-badge">M1: Scope Lock</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 1 -->
+                <div class="phase-card">
+                    <div class="phase-header phase-1-header">
+                        <div class="phase-title"><i class="fas fa-search"></i> Phase 1: Baseline Diagnostic</div>
+                        <div class="phase-meta">
+                            <span><i class="fas fa-calendar"></i> Weeks 6-10</span>
+                            <span><i class="fas fa-tasks"></i> 8 Activities</span>
+                        </div>
+                    </div>
+                    <div class="phase-content">
+                        <ul class="activity-list">
+                            <li class="activity-item">
+                                <div class="activity-num">1</div>
+                                <div class="activity-content">
+                                    <h5>Document Review</h5>
+                                    <p>Review IMRS elements, policies, procedures</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">2</div>
+                                <div class="activity-content">
+                                    <h5>Standards & Regulatory Mapping</h5>
+                                    <p>Map IMRS to ISO/RC/HCIS/API/CCPS</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">3</div>
+                                <div class="activity-content">
+                                    <h5>Element Owner Workshops</h5>
+                                    <p>Workshops per IMRS element</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">4</div>
+                                <div class="activity-content">
+                                    <h5>Cross-Functional Sessions</h5>
+                                    <p>HSE, Ops, Maintenance, Risk, Compliance validation</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">5</div>
+                                <div class="activity-content">
+                                    <h5>Evidence Sampling</h5>
+                                    <p>Review records, MOC, inspections, incidents</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">6</div>
+                                <div class="activity-content">
+                                    <h5>Maturity Scoring</h5>
+                                    <p>Apply 1-5 maturity model with evidence</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">7</div>
+                                <div class="activity-content">
+                                    <h5>Gap Consolidation</h5>
+                                    <p>Heatmaps, risk classification</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">8</div>
+                                <div class="activity-content">
+                                    <h5>Executive Presentation</h5>
+                                    <p>Present findings & roadmap</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="phase-footer">
+                        <div class="deliverables">
+                            <span class="deliverable-tag"><i class="fas fa-file-alt"></i> D4: Gap Report</span>
+                            <span class="deliverable-tag"><i class="fas fa-presentation"></i> D5: Executive Deck</span>
+                            <span class="milestone-badge">M2: Diagnostic Validation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 2 -->
+                <div class="phase-card">
+                    <div class="phase-header phase-2-header">
+                        <div class="phase-title"><i class="fas fa-project-diagram"></i> Phase 2: IMRS Interlinking</div>
+                        <div class="phase-meta">
+                            <span><i class="fas fa-calendar"></i> Weeks 11-14</span>
+                            <span><i class="fas fa-tasks"></i> 6 Activities</span>
+                        </div>
+                    </div>
+                    <div class="phase-content">
+                        <ul class="activity-list">
+                            <li class="activity-item">
+                                <div class="activity-num">1</div>
+                                <div class="activity-content">
+                                    <h5>Governance Architecture Design</h5>
+                                    <p>Map lifecycle: Governance → Risk → Ops → Audit → Review</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">2</div>
+                                <div class="activity-content">
+                                    <h5>Cross-Element Control Mapping</h5>
+                                    <p>Identify interdependencies (MOC, incident, asset)</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">3</div>
+                                <div class="activity-content">
+                                    <h5>Draft Integrated Architecture Map</h5>
+                                    <p>Develop full visual governance map</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">4</div>
+                                <div class="activity-content">
+                                    <h5>Validation Workshops</h5>
+                                    <p>Review architecture with stakeholders</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">5</div>
+                                <div class="activity-content">
+                                    <h5>Finalization & Sign-off</h5>
+                                    <p>Approve integrated model</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">6</div>
+                                <div class="activity-content">
+                                    <h5>Cross-Control Matrix</h5>
+                                    <p>Final cross-element mapping</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="phase-footer">
+                        <div class="deliverables">
+                            <span class="deliverable-tag"><i class="fas fa-sitemap"></i> D6: Architecture Map</span>
+                            <span class="deliverable-tag"><i class="fas fa-th"></i> D7: Control Matrix</span>
+                            <span class="milestone-badge">M3: Architecture Approval</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 3 -->
+                <div class="phase-card">
+                    <div class="phase-header phase-3-header">
+                        <div class="phase-title"><i class="fas fa-book"></i> Phase 3: Framework & Documentation</div>
+                        <div class="phase-meta">
+                            <span><i class="fas fa-calendar"></i> Weeks 15-18</span>
+                            <span><i class="fas fa-tasks"></i> 8 Activities</span>
+                        </div>
+                    </div>
+                    <div class="phase-content">
+                        <ul class="activity-list">
+                            <li class="activity-item">
+                                <div class="activity-num">1</div>
+                                <div class="activity-content">
+                                    <h5>Draft IMRS Master Document</h5>
+                                    <p>Update elements, intent, requirements</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">2</div>
+                                <div class="activity-content">
+                                    <h5>Control Library Development</h5>
+                                    <p>Minimum controls per element</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">3</div>
+                                <div class="activity-content">
+                                    <h5>Standard Crosswalk Annexes</h5>
+                                    <p>ISO/RC/HCIS/API mapping annexes</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">4</div>
+                                <div class="activity-content">
+                                    <h5>Scoring & Rating Guidance</h5>
+                                    <p>Define maturity thresholds & calibration rules</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">5</div>
+                                <div class="activity-content">
+                                    <h5>Implementation Guide Draft</h5>
+                                    <p>Define evidence, governance structure</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">6</div>
+                                <div class="activity-content">
+                                    <h5>Review Workshops</h5>
+                                    <p>Validate with element owners</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">7</div>
+                                <div class="activity-content">
+                                    <h5>Final Consolidation</h5>
+                                    <p>Incorporate feedback</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">8</div>
+                                <div class="activity-content">
+                                    <h5>Annex Pack Finalization</h5>
+                                    <p>Crosswalk + Control Library</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="phase-footer">
+                        <div class="deliverables">
+                            <span class="deliverable-tag"><i class="fas fa-book"></i> D8: Master Document</span>
+                            <span class="deliverable-tag"><i class="fas fa-paperclip"></i> D9: Annex Pack</span>
+                            <span class="milestone-badge">M4: Framework Approval</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 4 -->
+                <div class="phase-card">
+                    <div class="phase-header phase-4-header">
+                        <div class="phase-title"><i class="fas fa-laptop-code"></i> Phase 4: Digital Transformation</div>
+                        <div class="phase-meta">
+                            <span><i class="fas fa-calendar"></i> Weeks 19-22</span>
+                            <span><i class="fas fa-tasks"></i> 7 Activities</span>
+                        </div>
+                    </div>
+                    <div class="phase-content">
+                        <ul class="activity-list">
+                            <li class="activity-item">
+                                <div class="activity-num">1</div>
+                                <div class="activity-content">
+                                    <h5>Architecture Option Finalization</h5>
+                                    <p>Select Option A/B/C</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">2</div>
+                                <div class="activity-content">
+                                    <h5>System Design Specification</h5>
+                                    <p>Define workflows, forms, dashboards</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">3</div>
+                                <div class="activity-content">
+                                    <h5>Workflow Configuration</h5>
+                                    <p>Audit forms, CAPA automation</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">4</div>
+                                <div class="activity-content">
+                                    <h5>Dashboard & Scoring Engine</h5>
+                                    <p>Maturity dashboards & heatmaps</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">5</div>
+                                <div class="activity-content">
+                                    <h5>Role-Based Access Configuration</h5>
+                                    <p>Corporate / Site / Auditor roles</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">6</div>
+                                <div class="activity-content">
+                                    <h5>UAT (User Acceptance Testing)</h5>
+                                    <p>Controlled pilot testing</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">7</div>
+                                <div class="activity-content">
+                                    <h5>Go-Live Preparation</h5>
+                                    <p>Cybersecurity validation</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="phase-footer">
+                        <div class="deliverables">
+                            <span class="deliverable-tag"><i class="fas fa-file-alt"></i> D10: Architecture Memo</span>
+                            <span class="deliverable-tag"><i class="fas fa-file-code"></i> D11: FR Spec</span>
+                            <span class="deliverable-tag"><i class="fas fa-rocket"></i> D12: Portal Live</span>
+                            <span class="milestone-badge">M5 & M6</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 5 -->
+                <div class="phase-card">
+                    <div class="phase-header phase-5-header">
+                        <div class="phase-title"><i class="fas fa-palette"></i> Phase 5: Branding & Identity</div>
+                        <div class="phase-meta">
+                            <span><i class="fas fa-calendar"></i> Weeks 23-25</span>
+                            <span><i class="fas fa-tasks"></i> 5 Activities</span>
+                        </div>
+                    </div>
+                    <div class="phase-content">
+                        <ul class="activity-list">
+                            <li class="activity-item">
+                                <div class="activity-num">1</div>
+                                <div class="activity-content">
+                                    <h5>Naming Development</h5>
+                                    <p>Develop 5-7 naming options</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">2</div>
+                                <div class="activity-content">
+                                    <h5>Branding Workshop</h5>
+                                    <p>Select name</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">3</div>
+                                <div class="activity-content">
+                                    <h5>Logo Concepts</h5>
+                                    <p>Develop 3 logo options</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">4</div>
+                                <div class="activity-content">
+                                    <h5>Brand Pack Finalization</h5>
+                                    <p>Color, placement, mono version</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">5</div>
+                                <div class="activity-content">
+                                    <h5>Template Updates</h5>
+                                    <p>Update manuals, dashboards, audit templates</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="phase-footer">
+                        <div class="deliverables">
+                            <span class="deliverable-tag"><i class="fas fa-file-signature"></i> D13: Naming Memo</span>
+                            <span class="deliverable-tag"><i class="fas fa-palette"></i> D14: Brand Pack</span>
+                            <span class="deliverable-tag"><i class="fas fa-copy"></i> D15: Templates</span>
+                            <span class="milestone-badge">M7: Naming Approval</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 6 -->
+                <div class="phase-card">
+                    <div class="phase-header phase-6-header">
+                        <div class="phase-title"><i class="fas fa-graduation-cap"></i> Phase 6: Training & Institutionalization</div>
+                        <div class="phase-meta">
+                            <span><i class="fas fa-calendar"></i> Weeks 26-30</span>
+                            <span><i class="fas fa-tasks"></i> 8 Activities</span>
+                        </div>
+                    </div>
+                    <div class="phase-content">
+                        <ul class="activity-list">
+                            <li class="activity-item">
+                                <div class="activity-num">1</div>
+                                <div class="activity-content">
+                                    <h5>Audit Checklist Development</h5>
+                                    <p>Element-specific audit tools</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">2</div>
+                                <div class="activity-content">
+                                    <h5>Auditor Guidance Notes</h5>
+                                    <p>Testing & sampling guidance</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">3</div>
+                                <div class="activity-content">
+                                    <h5>Scoring Calibration Guide</h5>
+                                    <p>Define rating consistency</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">4</div>
+                                <div class="activity-content">
+                                    <h5>Audit Reporting Templates</h5>
+                                    <p>Executive summary + CAPA tracker</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">5</div>
+                                <div class="activity-content">
+                                    <h5>Training Material Development</h5>
+                                    <p>Master deck, manuals, QRGs</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">6</div>
+                                <div class="activity-content">
+                                    <h5>Role-Based Training Sessions</h5>
+                                    <p>Exec, owners, auditors, users</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">7</div>
+                                <div class="activity-content">
+                                    <h5>Train-the-Trainer (ToT)</h5>
+                                    <p>Internal sustainability program</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-num">8</div>
+                                <div class="activity-content">
+                                    <h5>Institutionalization Workshop</h5>
+                                    <p>Governance & annual audit planning</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="phase-footer">
+                        <div class="deliverables">
+                            <span class="deliverable-tag"><i class="fas fa-clipboard-check"></i> D16: Audit Framework</span>
+                            <span class="deliverable-tag"><i class="fas fa-chalkboard-teacher"></i> D17: Training Package</span>
+                            <span class="deliverable-tag"><i class="fas fa-flag-checkered"></i> D18: Closeout Report</span>
+                            <span class="milestone-badge">M8: Project Closure</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline View -->
+        <div id="timeline-view" class="view-section">
+            <div class="timeline-container">
+                <div class="timeline">
+                    <div class="timeline-phase">
+                        <div class="timeline-content" style="border-left-color: #f5576c;">
+                            <h3 style="color: #f5576c; margin-bottom: 10px;"><i class="fas fa-rocket"></i> Phase 0: Mobilization & Scope Lock</h3>
+                            <p style="color: #666; margin-bottom: 15px;"><i class="fas fa-calendar"></i> Weeks 1-5 | <i class="fas fa-tasks"></i> 7 Activities</p>
+                            <p style="line-height: 1.6;">Project initiation, stakeholder alignment, scope definition, and execution planning. Key milestone: M1 - Scope Lock & Mobilization Approval</p>
+                            <div style="margin-top: 15px;">
+                                <span class="deliverable-tag"><i class="fas fa-file-alt"></i> D1: DoD Pack</span>
+                                <span class="deliverable-tag"><i class="fas fa-list"></i> D2: Data Log</span>
+                                <span class="deliverable-tag"><i class="fas fa-sitemap"></i> D3: Execution Plan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-phase">
+                        <div class="timeline-content" style="border-left-color: #00b4db;">
+                            <h3 style="color: #00b4db; margin-bottom: 10px;"><i class="fas fa-search"></i> Phase 1: Baseline Diagnostic & Gap Assessment</h3>
+                            <p style="color: #666; margin-bottom: 15px;"><i class="fas fa-calendar"></i> Weeks 6-10 | <i class="fas fa-tasks"></i> 8 Activities</p>
+                            <p style="line-height: 1.6;">Comprehensive review of existing IMRS, standards mapping, workshops with element owners, and maturity assessment. Key milestone: M2 - Diagnostic Validation Workshop</p>
+                            <div style="margin-top: 15px;">
+                                <span class="deliverable-tag"><i class="fas fa-file-alt"></i> D4: Gap Assessment Report</span>
+                                <span class="deliverable-tag"><i class="fas fa-presentation"></i> D5: Executive Summary Deck</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-phase">
+                        <div class="timeline-content" style="border-left-color: #11998e;">
+                            <h3 style="color: #11998e; margin-bottom: 10px;"><i class="fas fa-project-diagram"></i> Phase 2: IMRS Interlinking & Architecture</h3>
+                            <p style="color: #666; margin-bottom: 15px;"><i class="fas fa-calendar"></i> Weeks 11-14 | <i class="fas fa-tasks"></i> 6 Activities</p>
+                            <p style="line-height: 1.6;">Design integrated governance architecture, map cross-element controls, develop visual governance model. Key milestone: M3 - Architecture Approval</p>
+                            <div style="margin-top: 15px;">
+                                <span class="deliverable-tag"><i class="fas fa-sitemap"></i> D6: Integrated Architecture Map</span>
+                                <span class="deliverable-tag"><i class="fas fa-th"></i> D7: Cross-Element Control Matrix</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-phase">
+                        <div class="timeline-content" style="border-left-color: #f093fb;">
+                            <h3 style="color: #f093fb; margin-bottom: 10px;"><i class="fas fa-book"></i> Phase 3: Updated IMRS Framework & Documentation</h3>
+                            <p style="color: #666; margin-bottom: 15px;"><i class="fas fa-calendar"></i> Weeks 15-18 | <i class="fas fa-tasks"></i> 8 Activities</p>
+                            <p style="line-height: 1.6;">Develop updated IMRS master document, control library, standard crosswalk annexes, and implementation guidance. Key milestone: M4 - IMRS Framework Approval</p>
+                            <div style="margin-top: 15px;">
+                                <span class="deliverable-tag"><i class="fas fa-book"></i> D8: Updated IMRS Master Document</span>
+                                <span class="deliverable-tag"><i class="fas fa-paperclip"></i> D9: Crosswalk & Control Library Pack</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-phase">
+                        <div class="timeline-content" style="border-left-color: #667eea;">
+                            <h3 style="color: #667eea; margin-bottom: 10px;"><i class="fas fa-laptop-code"></i> Phase 4: Digital Transformation of IMRS</h3>
+                            <p style="color: #666; margin-bottom: 15px;"><i class="fas fa-calendar"></i> Weeks 19-22 | <i class="fas fa-tasks"></i> 7 Activities</p>
+                            <p style="line-height: 1.6;">Design and deploy digital IMRS platform with workflows, dashboards, and role-based access. Key milestones: M5 - Architecture Selection, M6 - Digital Go-Live</p>
+                            <div style="margin-top: 15px;">
+                                <span class="deliverable-tag"><i class="fas fa-file-alt"></i> D10: Architecture Selection Memo</span>
+                                <span class="deliverable-tag"><i class="fas fa-file-code"></i> D11: Functional Requirement Spec</span>
+                                <span class="deliverable-tag"><i class="fas fa-rocket"></i> D12: Digital IMRS Portal Live</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-phase">
+                        <div class="timeline-content" style="border-left-color: #764ba2;">
+                            <h3 style="color: #764ba2; margin-bottom: 10px;"><i class="fas fa-palette"></i> Phase 5: Branding & Identity Refresh</h3>
+                            <p style="color: #666; margin-bottom: 15px;"><i class="fas fa-calendar"></i> Weeks 23-25 | <i class="fas fa-tasks"></i> 5 Activities</p>
+                            <p style="line-height: 1.6;">Develop naming options, logo concepts, brand identity pack, and update all templates. Key milestone: M7 - Naming Approval</p>
+                            <div style="margin-top: 15px;">
+                                <span class="deliverable-tag"><i class="fas fa-file-signature"></i> D13: Naming Memo</span>
+                                <span class="deliverable-tag"><i class="fas fa-palette"></i> D14: Brand Identity Pack</span>
+                                <span class="deliverable-tag"><i class="fas fa-copy"></i> D15: Updated Templates</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-phase">
+                        <div class="timeline-content" style="border-left-color: #4facfe;">
+                            <h3 style="color: #4facfe; margin-bottom: 10px;"><i class="fas fa-graduation-cap"></i> Phase 6: Audit Framework, Training & Institutionalization</h3>
+                            <p style="color: #666; margin-bottom: 15px;"><i class="fas fa-calendar"></i> Weeks 26-30 | <i class="fas fa-tasks"></i> 8 Activities</p>
+                            <p style="line-height: 1.6;">Develop audit framework, training materials, conduct role-based training, and institutionalize governance. Key milestone: M8 - Project Closure & Institutionalization</p>
+                            <div style="margin-top: 15px;">
+                                <span class="deliverable-tag"><i class="fas fa-clipboard-check"></i> D16: IMRS Audit Framework Pack</span>
+                                <span class="deliverable-tag"><i class="fas fa-chalkboard-teacher"></i> D17: Training & ToT Package</span>
+                                <span class="deliverable-tag"><i class="fas fa-flag-checkered"></i> D18: Final Program Closeout Report</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gantt Chart View -->
+        <div id="gantt-view" class="view-section">
+            <div class="gantt-container">
+                <div class="gantt-chart">
+                    <div class="gantt-header">
+                        <div class="task-col">Activity</div>
+                        <div class="week-col">W1</div>
+                        <div class="week-col">W2</div>
+                        <div class="week-col">W3</div>
+                        <div class="week-col">W4</div>
+                        <div class="week-col">W5</div>
+                        <div class="week-col">W6</div>
+                        <div class="week-col">W7</div>
+                        <div class="week-col">W8</div>
+                        <div class="week-col">W9</div>
+                        <div class="week-col">W10</div>
+                        <div class="week-col">W11</div>
+                        <div class="week-col">W12</div>
+                        <div class="week-col">W13</div>
+                        <div class="week-col">W14</div>
+                        <div class="week-col">W15</div>
+                        <div class="week-col">W16</div>
+                        <div class="week-col">W17</div>
+                        <div class="week-col">W18</div>
+                        <div class="week-col">W19</div>
+                        <div class="week-col">W20</div>
+                    </div>
+                    
+                    <!-- Phase 0 Activities -->
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-0">0.1</div>
+                            <div class="task-details">
+                                <h4>Kick-off & Governance Setup</h4>
+                                <p>Formal project launch, confirm stakeholders</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"><div class="task-bar phase-0"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-0"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-0">0.2</div>
+                            <div class="task-details">
+                                <h4>HSE & Site Access Induction</h4>
+                                <p>Complete access formalities for workshops</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"><div class="task-bar phase-0"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-0"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-0">0.3</div>
+                            <div class="task-details">
+                                <h4>Scope Clarification Workshop</h4>
+                                <p>Confirm boundaries, assumptions, exclusions</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-0"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-0"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-0">0.4</div>
+                            <div class="task-details">
+                                <h4>IT Landscape Alignment</h4>
+                                <p>Review SAP, SharePoint, security constraints</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-0"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-0"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-0">0.5</div>
+                            <div class="task-details">
+                                <h4>Deliverable Acceptance Criteria</h4>
+                                <p>Define measurable completion standards</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-0"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-0"><div class="deliverable-icon">D1</div></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-0">0.6</div>
+                            <div class="task-details">
+                                <h4>Data Request & Collection</h4>
+                                <p>Collect IMRS framework, policies, templates</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"><div class="task-bar phase-0"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-0"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-0"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-0"><div class="deliverable-icon">D2</div></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-0">0.7</div>
+                            <div class="task-details">
+                                <h4>Project Execution Plan</h4>
+                                <p>Confirm timeline, phase gates</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-0"><div class="milestone-marker"></div><div class="deliverable-icon">D3</div></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <!-- Phase 1 Activities -->
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-1">1.1</div>
+                            <div class="task-details">
+                                <h4>Document Review</h4>
+                                <p>Review IMRS elements, policies, procedures</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-1"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-1"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-1">1.2</div>
+                            <div class="task-details">
+                                <h4>Standards & Regulatory Mapping</h4>
+                                <p>Map IMRS to ISO/RC/HCIS/API/CCPS</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-1"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-1"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-1"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-1">1.3</div>
+                            <div class="task-details">
+                                <h4>Element Owner Workshops</h4>
+                                <p>Workshops per IMRS element</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-1"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-1"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-1"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-1">1.4</div>
+                            <div class="task-details">
+                                <h4>Cross-Functional Sessions</h4>
+                                <p>HSE, Ops, Maintenance validation</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-1"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-1"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-1">1.5</div>
+                            <div class="task-details">
+                                <h4>Evidence Sampling</h4>
+                                <p>Review records, MOC, inspections</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-1"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-1"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-1"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-1">1.6</div>
+                            <div class="task-details">
+                                <h4>Maturity Scoring</h4>
+                                <p>Apply 1-5 maturity model with evidence</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-1"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-1"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-1">1.7</div>
+                            <div class="task-details">
+                                <h4>Gap Consolidation</h4>
+                                <p>Heatmaps, risk classification</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-1"><div class="milestone-marker"></div><div class="deliverable-icon">D4</div></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-1">1.8</div>
+                            <div class="task-details">
+                                <h4>Executive Presentation</h4>
+                                <p>Present findings & roadmap</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-1"><div class="deliverable-icon">D5</div></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <!-- Phase 2 Activities -->
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-2">2.1</div>
+                            <div class="task-details">
+                                <h4>Governance Architecture Design</h4>
+                                <p>Map lifecycle: Governance → Risk → Ops → Audit</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-2"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-2"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-2">2.2</div>
+                            <div class="task-details">
+                                <h4>Cross-Element Control Mapping</h4>
+                                <p>Identify interdependencies (MOC, incident, asset)</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-2"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-2"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-2"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-2">2.3</div>
+                            <div class="task-details">
+                                <h4>Draft Integrated Architecture Map</h4>
+                                <p>Develop full visual governance map</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-2"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-2"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-2">2.4</div>
+                            <div class="task-details">
+                                <h4>Validation Workshops</h4>
+                                <p>Review architecture with stakeholders</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-2"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-2"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-2">2.5</div>
+                            <div class="task-details">
+                                <h4>Finalization & Sign-off</h4>
+                                <p>Approve integrated model</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-2"><div class="milestone-marker"></div><div class="deliverable-icon">D6</div></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-2">2.6</div>
+                            <div class="task-details">
+                                <h4>Cross-Control Matrix</h4>
+                                <p>Final cross-element mapping</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-2"><div class="deliverable-icon">D7</div></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <!-- Phase 3 Activities -->
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-3">3.1</div>
+                            <div class="task-details">
+                                <h4>Draft IMRS Master Document</h4>
+                                <p>Update elements, intent, requirements</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-3"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-3"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-3">3.2</div>
+                            <div class="task-details">
+                                <h4>Control Library Development</h4>
+                                <p>Minimum controls per element</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-3"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-3"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-3"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-3">3.3</div>
+                            <div class="task-details">
+                                <h4>Standard Crosswalk Annexes</h4>
+                                <p>ISO/RC/HCIS/API mapping annexes</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-3"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-3"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-3">3.4</div>
+                            <div class="task-details">
+                                <h4>Scoring & Rating Guidance</h4>
+                                <p>Define maturity thresholds & calibration</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-3"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-3"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-3"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-3">3.5</div>
+                            <div class="task-details">
+                                <h4>Implementation Guide Draft</h4>
+                                <p>Define evidence, governance structure</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-3"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-3"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-3">3.6</div>
+                            <div class="task-details">
+                                <h4>Review Workshops</h4>
+                                <p>Validate with element owners</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-3"></div></div>
+                        <div class="week-cell"><div class="task-bar phase-3"></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-3">3.7</div>
+                            <div class="task-details">
+                                <h4>Final Consolidation</h4>
+                                <p>Incorporate feedback</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-3"><div class="milestone-marker"></div><div class="deliverable-icon">D8</div></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-3">3.8</div>
+                            <div class="task-details">
+                                <h4>Annex Pack Finalization</h4>
+                                <p>Crosswalk + Control Library</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-3"><div class="deliverable-icon">D9</div></div></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <!-- Phase 4 Activities -->
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-4">4.1</div>
+                            <div class="task-details">
+                                <h4>Architecture Option Finalization</h4>
+                                <p>Select Option A/B/C</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-4"><div class="milestone-marker"></div><div class="deliverable-icon">D10</div></div></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-4">4.2</div>
+                            <div class="task-details">
+                                <h4>System Design Specification</h4>
+                                <p>Define workflows, forms, dashboards</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-4"><div class="deliverable-icon">D11</div></div></div>
+                        <div class="week-cell"><div class="task-bar phase-4"></div></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-4">4.3</div>
+                            <div class="task-details">
+                                <h4>Workflow Configuration</h4>
+                                <p>Audit forms, CAPA automation</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-4"></div></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-4">4.4</div>
+                            <div class="task-details">
+                                <h4>Dashboard & Scoring Engine</h4>
+                                <p>Maturity dashboards & heatmaps</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-4"></div></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-4">4.5</div>
+                            <div class="task-details">
+                                <h4>Role-Based Access Config</h4>
+                                <p>Corporate / Site / Auditor roles</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-4"></div></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-4">4.6</div>
+                            <div class="task-details">
+                                <h4>UAT (User Acceptance Testing)</h4>
+                                <p>Controlled pilot testing</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-4"></div></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-4">4.7</div>
+                            <div class="task-details">
+                                <h4>Go-Live Preparation</h4>
+                                <p>Cybersecurity validation</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"><div class="task-bar phase-4"><div class="milestone-marker"></div><div class="deliverable-icon">D12</div></div></div>
+                    </div>
+                    
+                    <!-- Phase 5 Activities -->
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-5">5.1</div>
+                            <div class="task-details">
+                                <h4>Naming Development</h4>
+                                <p>Develop 5-7 naming options</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-5">5.2</div>
+                            <div class="task-details">
+                                <h4>Branding Workshop</h4>
+                                <p>Select name</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-5">5.3</div>
+                            <div class="task-details">
+                                <h4>Logo Concepts</h4>
+                                <p>Develop 3 logo options</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-5">5.4</div>
+                            <div class="task-details">
+                                <h4>Brand Pack Finalization</h4>
+                                <p>Color, placement, mono version</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                    
+                    <div class="phase-row">
+                        <div class="task-info">
+                            <div class="task-number phase-5">5.5</div>
+                            <div class="task-details">
+                                <h4>Template Updates</h4>
+                                <p>Update manuals, dashboards, audit templates</p>
+                            </div>
+                        </div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                        <div class="week-cell"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchView(view) {
+            document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.querySelectorAll('.view-section').forEach(section => section.classList.remove('active'));
+            document.getElementById(view + '-view').classList.add('active');
+        }
+    </script>
+</body>
+</html>
